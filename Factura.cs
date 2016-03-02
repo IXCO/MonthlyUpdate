@@ -13,29 +13,19 @@ namespace MonthlyUpdate
         public string uuid;
         public string total;
         public string folio;
-        public string timeAdded;
-        public string email;
+
         public Factura(String RecepientRFC, String SenderRFC, String Uuid, String Total, String Folio)
         {
             recepientRFC = RecepientRFC;
             senderRFC = SenderRFC;
             uuid = Uuid;
             total = Total;
-
             folio = Folio;
         }
         public Factura()
         {
         }
-
-        public Factura(String addedAt, String Uuid, String senderMail)
-        {
-            timeAdded = addedAt;
-            uuid = Uuid;
-            email = senderMail;
-
-        }
-        public String getChain()
+        private String getChain()
         {
             return "?re=" + senderRFC + "&rr=" + recepientRFC + "&tt=" + total + "&id=" + uuid;
         }

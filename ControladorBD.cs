@@ -9,7 +9,7 @@ namespace MonthlyUpdate
     class ControladorBD
     {
 
-        public MySqlConnection connection;
+        private MySqlConnection connection;
         public ControladorBD()
         {
             connection = new MySqlConnection();
@@ -19,7 +19,8 @@ namespace MonthlyUpdate
         }
         public Factura[] getPendings()
         {
-            Factura[] pendingInvoices = new Factura[800];
+            //Initialize array of invoice with a limit of 3000
+            Factura[] pendingInvoices = new Factura[3000];
             int counter = 0;
             String statement = "SELECT RECEPTOR.RFC, EMISOR.RFC, COMPROBANTE.TOTAL," +
             "TIMBRE.UUID FROM CFDI_COMPROBANTE COMPROBANTE " +
@@ -31,8 +32,8 @@ namespace MonthlyUpdate
             "COMPROBANTE.CFDI_COMPROBANTE_PKEY "+
             "INNER JOIN CFDI_EMISOR EMISOR ON EMISOR.CFDI_COMPROBANTE_FKEY = "+
             "COMPROBANTE.CFDI_COMPROBANTE_PKEY "+
-            "WHERE TIMBRE.added_at > DATE_SUB(NOW(), INTERVAL 15 DAY) " +
-            "LIMIT 800 ;";
+            "WHERE TIMBRE.added_at > DATE_SUB(NOW(), INTERVAL 20 DAY) " +
+            "LIMIT 3000;";
             connection.Open();
             try
             {
@@ -48,9 +49,7 @@ namespace MonthlyUpdate
 
             }
             catch (MySqlException)
-            {
-
-            }
+            {            }
             finally
             {
                 connection.Dispose();
@@ -62,7 +61,7 @@ namespace MonthlyUpdate
         {
             bool success = true;
             connection.Open();
-            String statement = "INSERT INTO Canceladas (name,rfcR,rfcE,folio,time_added) VALUES('" + name + "','" + receiverRFC + "','" + senderRFC + "'," +
+            String statement = "INSERT INTO Canceladas (name,rfcR,rfcE,folio,time_added) VALUES('" + name + ".xml','" + receiverRFC + "','" + senderRFC + "'," +
                 "'" + serial + "','" + DateTime.Today.ToShortDateString() + "');";
             try
             {

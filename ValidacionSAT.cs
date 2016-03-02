@@ -26,7 +26,8 @@ namespace MonthlyUpdate
                     //Sends request with information obtain from invoice
                     //Specific format is described on SAT webpage
                     operation = client.Consulta(chain);
-                    //Get just the status and the code.
+                    //Get just the significant characters
+                    //for status and the complete code.
                     status = operation.CodigoEstatus.Substring(0, 7);
                     code = operation.Estado;
                 }
